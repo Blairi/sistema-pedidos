@@ -1,0 +1,3 @@
+1097679|helicoptero|321.0|heli color verde
+2207931|monitor actualizado|321987.0|monitor con colores
+5451421|mouse actualizado|321.0|mouse con colores
