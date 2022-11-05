@@ -1,9 +1,10 @@
 import sys
 
-from controladores.GrafosControlador import GrafosControlador
-
 sys.path.insert(0,"..")
+from controladores.GrafosControlador import GrafosControlador
+from controladores.ProductosControlador import ProductosControlador
 
-
-grafo_controlador = GrafosControlador()
-grafo_controlador.menu()
+def main():
+    producto_controlador = ProductosControlador()
+    grafo_controlador = GrafosControlador()
+        
