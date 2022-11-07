@@ -1,5 +1,4 @@
 import sys
-import copy
 
 sys.path.insert(0,"..")
 from database.GrafosRepositorio import GrafosRepositorio
