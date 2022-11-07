@@ -1,2 +1,10 @@
-tiendita|papeleria
-papeleria|tiendita
+escuela|tienda,papeleria
+papeleria|escuela,casa
+supermercado|casa
+casa|papeleria,supermercado,taller
+biblioteca|taller
+taller|casa,biblioteca,restaurante
+restaurante|taller,heladeria
+heladeria|restaurante,carpinteria
+tienda|escuela,carpinteria
+carpinteria|heladeria,tienda
