@@ -1,4 +1,5 @@
 import sys
+import copy
 
 sys.path.insert(0,"..")
 from database.GrafosRepositorio import GrafosRepositorio
@@ -13,12 +14,17 @@ class GrafosServicio:
         self.grafo = self.constuir_grafo()
 
     
-    def buscar_caminos(self, vertice_inicial : str) -> bool:
+    def buscar_camino(self, vertice_inicial : str, vertice_destino : str) -> bool:
 
         if not vertice_inicial in self.grafo.vertices:
             return False
+        if not vertice_destino in self.grafo.vertices:
+            return False
+        
+        # Hacemos una copia del grafo, ya que el algoritmo muta el objeto
+        copia_grafo = self.constuir_grafo()
+        copia_grafo.BFS( copia_grafo.vertices[ vertice_inicial ], copia_grafo.vertices[ vertice_destino ] )
 
-        self.grafo.BFS( self.grafo.vertices[ vertice_inicial ] )
         return True
 
 
