@@ -28,21 +28,24 @@ class Grafo:
             return False
 
 
-    def BFS(self, vertice : Vertice) -> None:
-        
-        vertice.distancia = 0
-        vertice.color = "gris"
-        vertice.pred = -1
+    def BFS(self, vertice_origen : Vertice, vertice_destino : Vertice):
+
+        vertices_padres = {}
+
+        vertice_origen.distancia = 0
+        vertice_origen.color = "gris"
+        vertice_origen.pred = -1
 
         lista = list()
-        lista.append(vertice.nombre)
+        lista.append(vertice_origen.nombre)
 
         while len(lista) > 0:
-            u = lista.pop()
 
+            u = lista.pop()
             node_u = self.vertices[u]
             
             for v in node_u.vecinos:
+
                 node_v = self.vertices[v]
 
                 if node_v.color == "blanco":
@@ -50,11 +53,20 @@ class Grafo:
                     node_v.distancia = node_u.distancia + 1
                     node_v.pred = node_u.nombre
                     lista.append(v)
-            
-            self.vertices[u].color = "black"
 
-        for key in sorted(list(self.vertices.keys())):
-            print(f"La distancia de {vertice.nombre} a { key } es {str(self.vertices[key].distancia)}")
+                    vertices_padres[node_v.nombre] = node_u.nombre
+
+            self.vertices[u].color = "black"
+        
+        camino_corto = []
+        while vertice_destino.nombre != None:
+            camino_corto.append( vertice_destino.nombre )
+            vertice_destino.nombre = vertices_padres.get( vertice_destino.nombre )
+
+        camino_corto.reverse()
+
+        print(f"Sigue esta ruta para llegar a tu destino: ")
+        print(" => ".join(camino_corto))
 
     
     def imprimir_grafo(self) -> None:
