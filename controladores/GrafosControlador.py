@@ -11,6 +11,11 @@ class GrafosControlador:
         self.grafo_servicio = GrafosServicio()
 
     
+    def mostrar_lugares(self) -> None:
+        lugares = self.grafo_servicio.listar_nombre_vertices()
+        for lugar in lugares:
+            print( lugar )
+    
     def nuevo_mapa(self) -> None:
 
         nombre = input("Nombre de tu establecimiento: ")
@@ -60,14 +65,20 @@ class GrafosControlador:
         limpiar_pantalla()
 
     
-    def buscar_caminos(self):
+    def buscar_camino(self):
 
-        punto_inicial = input("Lugar en el que te encuentas: ")
+        limpiar_pantalla()
 
-        resp = self.grafo_servicio.buscar_caminos( punto_inicial )
+        print("=== Lugares ===")
+        self.mostrar_lugares()
+
+        punto_inicial = input("Lugar en el que te encuentras: ")
+        punto_destino = input("Destino: ")
+
+        resp = self.grafo_servicio.buscar_camino( punto_inicial, punto_destino )
 
         if not resp:
-            print(f"{punto_inicial} no existe en tu mapa.")
+            print(f"{punto_inicial} o {punto_destino} no existe en tu mapa.")
             return
 
     
@@ -82,27 +93,28 @@ class GrafosControlador:
 
             else:
                 print("2. Reiniciar mapa")
-                print("3. Nuevo camino")
+                print("3. Agregar nuevo camino")
                 print("4. Agregar nuevo lugar")
-                print("5. Mostrar rutas")
+                print("5. Buscar camino")
 
             opc = int( input(": ") )
 
             if opc == 0:
+                limpiar_pantalla()
                 break
 
-            elif opc == 1 and self.grafo_servicio.es_vacio():
+            if opc == 1 and self.grafo_servicio.es_vacio():
                 self.nuevo_mapa()
 
-            if opc == 2:
+            if opc == 2 and not self.grafo_servicio.es_vacio():
                 self.reiniciar_mapa()
 
-            if opc == 3:
+            if opc == 3 and not self.grafo_servicio.es_vacio():
                 self.nuevo_camino()
 
-            if opc == 4:
+            if opc == 4 and not self.grafo_servicio.es_vacio():
                 self.nuevo_lugar()
 
-            if opc == 5:
-                self.buscar_caminos()
+            if opc == 5 and not self.grafo_servicio.es_vacio():
+                self.buscar_camino()
 
