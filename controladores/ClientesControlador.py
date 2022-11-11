@@ -3,6 +3,8 @@ import sys
 sys.path.insert(0,"..")
 from helpers.limpiar_pantalla import limpiar_pantalla
 from servicio.ClientesServicio import ClientesServicio
+from ordenamiento.quick_sort import quick_sort
+from dominio.Cliente import Cliente
 
 class ClientesControlador:
     
@@ -71,6 +73,39 @@ class ClientesControlador:
 
         limpiar_pantalla()
 
+
+    def ver_clientes(self):
+
+        clientes = self.cliente_servicio.listar_clientes()
+        
+        while True:
+
+            limpiar_pantalla()
+
+            print("==== Todos los clientes ====\n")
+            for cliente in clientes:
+                print(cliente)
+                print("-------")
+
+            print("=== ORDENAR POR ===")
+            print("0. Salir\n1. Id\n2. Nombre")
+            opc = input("Ordenar por: ")
+
+            if not opc.isdigit(): # Comprobando que sea un número
+                print(f"{ opc } no es una opción válida.")
+                return
+
+            opc = int(opc)
+
+            if opc == 0:
+                break
+
+            if opc == 1:
+                quick_sort(clientes, Cliente.get_id, 0, len(clientes) - 1)
+
+            if opc == 2:
+                quick_sort(clientes, Cliente.get_nombre, 0, len(clientes) - 1)
+
     
     def menu(self):
 
@@ -81,10 +116,12 @@ class ClientesControlador:
             print("1. Agregar cliente")
             print("2. Actualizar cliente")
             print("3. Eliminar cliente")
+            print("4. Ver clientes")
 
             opc = int( input(": ") )
 
             if opc == 0:
+                limpiar_pantalla()
                 break
 
             if opc == 1:
@@ -95,4 +132,7 @@ class ClientesControlador:
 
             if opc == 3:
                 self.eliminar_cliente()
+
+            if opc == 4:
+                self.ver_clientes()
 
