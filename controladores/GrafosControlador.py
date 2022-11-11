@@ -3,7 +3,7 @@ import sys
 sys.path.insert(0,"..")
 from helpers.limpiar_pantalla import limpiar_pantalla
 from servicio.GrafosServicio import GrafosServicio
-
+from dominio.VisualizadorGrafo import VisualizadorGrafo
 
 class GrafosControlador:
     
@@ -82,6 +82,19 @@ class GrafosControlador:
             return
 
     
+    def mostrar_grafo(self):
+
+        grafo_visual = VisualizadorGrafo()
+        
+        vertices = self.grafo_servicio.obtener_vertices()
+
+        for vertice in vertices:
+            for vecino in vertices[vertice].vecinos:
+                grafo_visual.agregar_arista(vertice, vecino)
+
+        grafo_visual.visualize()
+
+    
     def menu(self):
         while True:
 
@@ -96,6 +109,7 @@ class GrafosControlador:
                 print("3. Agregar nuevo camino")
                 print("4. Agregar nuevo lugar")
                 print("5. Buscar camino")
+                print("6. Mostrar mapa")
 
             opc = int( input(": ") )
 
@@ -117,4 +131,7 @@ class GrafosControlador:
 
             if opc == 5 and not self.grafo_servicio.es_vacio():
                 self.buscar_camino()
+
+            if opc == 6 and not self.grafo_servicio.es_vacio():
+                self.mostrar_grafo()
 

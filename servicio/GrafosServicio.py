@@ -13,6 +13,10 @@ class GrafosServicio:
         self.grafo = self.constuir_grafo()
 
     
+    def obtener_vertices(self) -> dict:
+        return self.grafo.vertices
+
+    
     def buscar_camino(self, vertice_inicial : str, vertice_destino : str) -> bool:
 
         if not vertice_inicial in self.grafo.vertices:
