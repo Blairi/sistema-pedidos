@@ -58,15 +58,15 @@ class Grafo:
 
             self.vertices[u].color = "black"
         
-        camino_corto = []
+        camino = []
         while vertice_destino.nombre != None:
-            camino_corto.append( vertice_destino.nombre )
+            camino.append( vertice_destino.nombre )
             vertice_destino.nombre = vertices_padres.get( vertice_destino.nombre )
 
-        camino_corto.reverse()
+        camino.reverse()
 
         print(f"Sigue esta ruta para llegar a tu destino: ")
-        print(" => ".join(camino_corto))
+        print(" => ".join(camino))
 
     
     def imprimir_grafo(self) -> None:
