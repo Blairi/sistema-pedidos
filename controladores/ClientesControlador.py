@@ -4,7 +4,6 @@ sys.path.insert(0,"..")
 from helpers.limpiar_pantalla import limpiar_pantalla
 from servicio.ClientesServicio import ClientesServicio
 from ordenamiento.quick_sort import quick_sort
-from busqueda.busqueda_binaria import busqueda_binaria
 from dominio.Cliente import Cliente
 
 class ClientesControlador:
@@ -100,6 +99,7 @@ class ClientesControlador:
             opc = int(opc)
 
             if opc == 0:
+                limpiar_pantalla()
                 break
 
             if opc == 1:
@@ -110,8 +110,6 @@ class ClientesControlador:
 
 
     def buscar_clientes(self):
-
-        clientes = self.cliente_servicio.listar_clientes()
 
         while True:
 
@@ -126,6 +124,7 @@ class ClientesControlador:
             opc = int(opc)
 
             if opc == 0:
+                limpiar_pantalla()
                 break
 
             if opc == 1:
@@ -136,32 +135,28 @@ class ClientesControlador:
                     print(f"{ llave } no es un id válido.")
                     return
 
-                quick_sort(clientes, Cliente.get_id, 0, len(clientes) - 1)
+                cliente = self.cliente_servicio.buscar_clientes(Cliente.get_id, int(llave))
 
-                indice = busqueda_binaria( clientes,  int(llave), Cliente.get_id, 0, len(clientes) - 1)
-
-                if not indice:
+                if not cliente:
                     print(f"{llave} no existe.")
                     continue
                 
                 print("== Cliente encontrado ==")
-                print(clientes[indice])
+                print(cliente)
                 print("========================")
             
             if opc == 2:
 
                 llave = input("Nombre a buscar: ")
 
-                quick_sort(clientes, Cliente.get_nombre, 0, len(clientes) - 1)
+                cliente = self.cliente_servicio.buscar_clientes(Cliente.get_nombre, llave.lower())
 
-                indice = busqueda_binaria( clientes,  llave.lower(), Cliente.get_nombre, 0, len(clientes) - 1)
-
-                if not indice:
+                if not cliente:
                     print(f"{llave} no existe.")
                     continue
                 
                 print("== Cliente encontrado ==")
-                print(clientes[indice])
+                print(cliente)
                 print("========================")
 
 
@@ -192,6 +187,7 @@ class ClientesControlador:
             opc = int(opc)
 
             if opc == 0:
+                limpiar_pantalla()
                 break
                 
             if opc == 1:

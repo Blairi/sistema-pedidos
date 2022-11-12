@@ -4,11 +4,27 @@ import random
 sys.path.insert(0,"..")
 from dominio.Cliente import Cliente
 from database.ClientesRepositorio import ClientesRespositorio
+from ordenamiento.quick_sort import quick_sort
+from busqueda.busqueda_binaria import busqueda_binaria
 
 class ClientesServicio:
     
     def __init__(self) -> None:
         self.repositorio = ClientesRespositorio()
+
+
+    def buscar_clientes(self, attr, llave : str|int) -> Cliente:
+
+        clientes = self.listar_clientes()
+
+        quick_sort( clientes, attr, 0, len(clientes) - 1 )
+
+        indice = busqueda_binaria( clientes, llave, attr, 0, len(clientes) - 1 )
+
+        if not indice:
+            return None
+
+        return clientes[indice]
 
     
     def listar_clientes(self) -> list[Cliente]:
