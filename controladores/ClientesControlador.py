@@ -4,6 +4,7 @@ sys.path.insert(0,"..")
 from helpers.limpiar_pantalla import limpiar_pantalla
 from servicio.ClientesServicio import ClientesServicio
 from ordenamiento.quick_sort import quick_sort
+from busqueda.busqueda_binaria import busqueda_binaria
 from dominio.Cliente import Cliente
 
 class ClientesControlador:
@@ -73,16 +74,17 @@ class ClientesControlador:
 
         limpiar_pantalla()
 
-
-    def ver_clientes(self):
+    
+    def ordenar_clientes(self):
 
         clientes = self.cliente_servicio.listar_clientes()
-        
+
         while True:
 
             limpiar_pantalla()
 
             print("==== Todos los clientes ====\n")
+
             for cliente in clientes:
                 print(cliente)
                 print("-------")
@@ -105,6 +107,98 @@ class ClientesControlador:
 
             if opc == 2:
                 quick_sort(clientes, Cliente.get_nombre, 0, len(clientes) - 1)
+
+
+    def buscar_clientes(self):
+
+        clientes = self.cliente_servicio.listar_clientes()
+
+        while True:
+
+            print("=== BUSCAR POR ===")
+            print("0. Salir\n1. Id\n2. Nombre")
+            opc = input("Buscar por: ")
+
+            if not opc.isdigit(): # Comprobando que sea un número
+                print(f"{ opc } no es una opción válida.")
+                return
+
+            opc = int(opc)
+
+            if opc == 0:
+                break
+
+            if opc == 1:
+
+                llave = input("Id a buscar: ")
+
+                if not llave.isdigit(): # Comprobando que sea un número
+                    print(f"{ llave } no es un id válido.")
+                    return
+
+                quick_sort(clientes, Cliente.get_id, 0, len(clientes) - 1)
+
+                indice = busqueda_binaria( clientes,  int(llave), Cliente.get_id, 0, len(clientes) - 1)
+
+                if not indice:
+                    print(f"{llave} no existe.")
+                    continue
+                
+                print("== Cliente encontrado ==")
+                print(clientes[indice])
+                print("========================")
+            
+            if opc == 2:
+
+                llave = input("Nombre a buscar: ")
+
+                quick_sort(clientes, Cliente.get_nombre, 0, len(clientes) - 1)
+
+                indice = busqueda_binaria( clientes,  llave.lower(), Cliente.get_nombre, 0, len(clientes) - 1)
+
+                if not indice:
+                    print(f"{llave} no existe.")
+                    continue
+                
+                print("== Cliente encontrado ==")
+                print(clientes[indice])
+                print("========================")
+
+
+
+
+    def ver_clientes(self):
+
+        clientes = self.cliente_servicio.listar_clientes()
+        
+        while True:
+
+            limpiar_pantalla()
+
+            print("==== Todos los clientes ====\n")
+            for cliente in clientes:
+                print(cliente)
+                print("-------")
+
+            print("-- Opciones --")
+            print("0. Salir\n1. Ordenar\n2. Buscar")
+
+            opc = input(": ")
+
+            if not opc.isdigit():
+                print(f"{ opc } no es una opción válida.")
+                return
+            
+            opc = int(opc)
+
+            if opc == 0:
+                break
+                
+            if opc == 1:
+                self.ordenar_clientes()
+
+            if opc == 2:
+                self.buscar_clientes()
 
     
     def menu(self):
