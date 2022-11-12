@@ -12,4 +12,4 @@ class Cliente:
         return self.nombre
 
     def __str__(self) -> str:
-        return f"id: {self.id}\nnombre: {self.nombre}"
+        return f"id: {self.id}\nnombre: {self.nombre.capitalize()}"
