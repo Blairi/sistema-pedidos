@@ -1,7 +1,6 @@
 import sys
 
 sys.path.insert(0,"..")
-
 from controladores.GrafosControlador import GrafosControlador
 from controladores.ProductosControlador import ProductosControlador
 from controladores.ClientesControlador import ClientesControlador
@@ -19,7 +18,13 @@ def main():
         print("===== Sistema de pedidos =====")
         print("Eligé escribiendo el número de la opción deseada:")
 
-        opc = int(input("0. Salir.\n1. Mi mapa.\n2. Mis productos.\n3. Clientes.\n: "))
+        opc = input("0. Salir.\n1. Mi mapa.\n2. Mis productos.\n3. Clientes.\n: ")
+
+        if not opc.isdigit():
+            print(f"{opc} no es una opción válida")
+            continue
+            
+        opc = int(opc)
 
         if opc == 0:
             break

@@ -160,8 +160,6 @@ class ClientesControlador:
                 print("========================")
 
 
-
-
     def ver_clientes(self):
 
         clientes = self.cliente_servicio.listar_clientes()
@@ -175,7 +173,7 @@ class ClientesControlador:
                 print(cliente)
                 print("-------")
 
-            print("-- Opciones --")
+            print("\n---- Opciones ----")
             print("0. Salir\n1. Ordenar\n2. Buscar")
 
             opc = input(": ")
@@ -202,13 +200,19 @@ class ClientesControlador:
         while True:
             print("===== Mis Clientes =====")
 
-            print("0. Salir a menu principal")
+            print("0. Salir a menú principal")
             print("1. Agregar cliente")
             print("2. Actualizar cliente")
             print("3. Eliminar cliente")
             print("4. Ver clientes")
 
-            opc = int( input(": ") )
+            opc = input(": ")
+
+            if not opc.isdigit():
+                print(f"{opc} no es una opción válida")
+                continue
+
+            opc = int(opc)
 
             if opc == 0:
                 limpiar_pantalla()

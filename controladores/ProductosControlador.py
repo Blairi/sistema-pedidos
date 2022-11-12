@@ -103,14 +103,21 @@ class ProductosControlador:
         while True:
             print("===== Mis productos =====")
 
-            print("0. Salir a menu principal")
+            print("0. Salir a menú principal")
             print("1. Crear producto")
             print("2. Actualizar producto")
             print("3. Eliminar producto")
 
-            opc = int( input(": ") )
+            opc = input(": ")
+
+            if not opc.isdigit():
+                print(f"{opc} no es una opción válida")
+                continue
+            
+            opc = int(opc)
 
             if opc == 0:
+                limpiar_pantalla()
                 break
 
             if opc == 1:

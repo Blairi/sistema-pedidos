@@ -16,6 +16,7 @@ class GrafosControlador:
         for lugar in lugares:
             print( lugar )
     
+
     def nuevo_mapa(self) -> None:
 
         nombre = input("Nombre de tu establecimiento: ")
@@ -44,6 +45,11 @@ class GrafosControlador:
 
     def nuevo_camino(self):
 
+        limpiar_pantalla()
+
+        print("=== Lugares ===")
+        self.mostrar_lugares()
+
         nombre_v1 = input("Conectar a: ")
         nombre_v2 = input("Con: ")
 
@@ -57,7 +63,7 @@ class GrafosControlador:
 
 
     def reiniciar_mapa(self):
-        resp = input("¿Estas seguro de reiniciar tu mapa? s/n: ")
+        resp = input("¿Estas seguro de reiniciar tu mapa? s/n:")
 
         if resp == "s":
             self.grafo_servicio.reiniciar_grafo()
@@ -99,7 +105,7 @@ class GrafosControlador:
         while True:
 
             print("===== Mi mapa =====")
-            print("0. Salir a menu principal")
+            print("0. Salir a menú principal")
 
             if self.grafo_servicio.es_vacio():
                 print("1. Iniciar mapa")
@@ -111,7 +117,13 @@ class GrafosControlador:
                 print("5. Buscar camino")
                 print("6. Mostrar mapa")
 
-            opc = int( input(": ") )
+            opc = input(": ")
+
+            if not opc.isdigit():
+                print(f"{opc} no es una opción válida")
+                continue
+            
+            opc = int(opc)
 
             if opc == 0:
                 limpiar_pantalla()
