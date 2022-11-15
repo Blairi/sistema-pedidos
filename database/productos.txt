@@ -1,3 +1,6 @@
 1097679|helicoptero|321.0|heli color verde
 2207931|monitor actualizado|321987.0|monitor con colores
 5451421|mouse actualizado|321.0|mouse con colores
+8770316|celular|2500.99|Celular android
+3430840|botella|299.85|botella de 1L para agua
+1158988|cargador|499.21|Cargador tipo C
