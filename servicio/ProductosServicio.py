@@ -4,6 +4,8 @@ import random
 sys.path.insert(0,"..")
 from dominio.Producto import Producto
 from database.ProductosRepositorio import ProductosRepositorio
+from busqueda.busqueda_binaria import busqueda_binaria
+from ordenamiento.quick_sort import quick_sort
 
 class ProductosServicio:
 
@@ -23,6 +25,20 @@ class ProductosServicio:
             productos.append( Producto(id, nombre, precio, desc) )
 
         return productos
+    
+
+    def recuperar_producto(self, id : int) -> Producto:
+        
+        productos = self.listar_productos()
+        
+        quick_sort(productos, Producto.get_id, 0, len(productos) - 1)
+
+        indice = busqueda_binaria(productos, id, Producto.get_id, 0, len(productos) - 1)
+
+        if not indice and indice != 0:
+            return None
+
+        return productos[indice]
 
 
     def listar_nombre_productos(self) -> list[str]:
