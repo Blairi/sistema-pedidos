@@ -34,7 +34,9 @@ class PedidosServicio:
         pedidos = list()
         for tupla in self.repositorio.listar_pedidos():
 
-            id, creado, fecha, cliente_id, lugar, ruta, productos_id, total = tupla
+            id, creado, fecha, cliente_id, lugar, ruta, productos_id, total, entregado = tupla
+
+            entregado = entregado == "True"
 
             creado = self.castear_fecha( creado )
             fecha = self.castear_fecha( fecha )
@@ -43,7 +45,7 @@ class PedidosServicio:
 
             productos_id = [ int(id_producto) for id_producto in productos_id ] # Conviertiendo id a entero
 
-            pedidos.append(Pedido( int(id), creado, fecha, int(cliente_id), lugar, ruta, productos_id, float(total) ))
+            pedidos.append(Pedido( int(id), creado, fecha, int(cliente_id), lugar, ruta, productos_id, float(total), entregado ))
 
         return pedidos
 
@@ -96,14 +98,14 @@ class PedidosServicio:
 
             total += producto.precio
 
-        nuevo_pedido = Pedido( id, creado, fecha, cliente_id, lugar, ruta, productos_id, total )
+        nuevo_pedido = Pedido( id, creado, fecha, cliente_id, lugar, ruta, productos_id, total, False )
 
         self.repositorio.guardar_pedido( nuevo_pedido )
 
         return True
     
 
-    def actualizar_pedido(self, id:int, fecha:datetime, cliente_id:int, lugar:str, ruta:str, productos_id:list[int]) -> bool:
+    def actualizar_pedido(self, id:int, fecha:datetime, cliente_id:int, lugar:str, ruta:str, productos_id:list[int], entregado:bool) -> bool:
 
         pedido = self.recuperar_pedido( id )
 
@@ -112,6 +114,7 @@ class PedidosServicio:
         pedido.lugar = lugar
         pedido.ruta = ruta
         pedido.productos_id = productos_id
+        pedido.entregado = entregado
 
         total = float(0)
         for producto_id in productos_id:

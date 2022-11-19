@@ -22,8 +22,12 @@ class PedidosRepositorio:
 
     def listar_id_pedidos(self) -> list[int]:
 
+        with open( self.ARCHIVO, "r" ) as file: # Si el archivo está vacio
+            if file.read(0) == "":
+                return []
+
         file = open( self.ARCHIVO, "r" )
-        
+
         ids = list()
         for line in file:
             ids.append(int( line.rstrip().split("|")[0] ))
@@ -38,7 +42,7 @@ class PedidosRepositorio:
 
         ids = ', '.join(map(str, pedido.productos_id))
 
-        file.write(f"{pedido.id}|{pedido.creado}|{pedido.fecha}|{pedido.cliente_id}|{pedido.lugar}|{pedido.ruta}|{ids}|{pedido.total}\n")
+        file.write(f"{pedido.id}|{pedido.creado}|{pedido.fecha}|{pedido.cliente_id}|{pedido.lugar}|{pedido.ruta}|{ids}|{pedido.total}|{pedido.entregrado}\n")
 
         file.close()
 
@@ -62,7 +66,7 @@ class PedidosRepositorio:
 
         ids = ', '.join(map(str, pedido.productos_id))
 
-        file.write(f"{pedido.id}|{pedido.creado}|{pedido.fecha}|{pedido.cliente_id}|{pedido.lugar}|{pedido.ruta}|{ids}|{pedido.total}\n")
+        file.write(f"{pedido.id}|{pedido.creado}|{pedido.fecha}|{pedido.cliente_id}|{pedido.lugar}|{pedido.ruta}|{ids}|{pedido.total}|{pedido.entregrado}\n")
         file.close()
 
         # escribir la copia de los productos
