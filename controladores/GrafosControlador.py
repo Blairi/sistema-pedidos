@@ -3,7 +3,7 @@ import sys
 sys.path.insert(0,"..")
 from helpers.limpiar_pantalla import limpiar_pantalla
 from servicio.GrafosServicio import GrafosServicio
-from dominio.VisualizadorGrafo import VisualizadorGrafo
+from grafos.VisualizadorGrafo import VisualizadorGrafo
 
 class GrafosControlador:
     
