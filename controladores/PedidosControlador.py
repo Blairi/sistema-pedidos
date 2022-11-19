@@ -5,6 +5,7 @@ sys.path.insert(0,"..")
 from servicio.PedidosServicio import PedidosServicio
 from servicio.ClientesServicio import ClientesServicio
 from servicio.ProductosServicio import ProductosServicio
+from servicio.GrafosServicio import GrafosServicio
 
 from helpers.limpiar_pantalla import limpiar_pantalla
 
@@ -14,7 +15,14 @@ class PedidosControlador:
         self.pedidos_servicio = PedidosServicio()
         self.clientes_servicio = ClientesServicio()
         self.productos_servicio = ProductosServicio()
+        self.grafo_servicio = GrafosServicio()
 
+    def mostrar_lugares(self):
+        print("== Lugares registrados ==")
+        lugares = self.grafo_servicio.listar_nombre_vertices()
+        for lugar in lugares:
+            print(lugar)
+            print("------------")
 
     def mostrar_clientes(self):
         print("== Tus clientes ==")
@@ -124,9 +132,36 @@ class PedidosControlador:
         
         fecha = anio + "-" + mes + "-" + dia + " " + hora + ":" + minuto + ":" + "0" # Formateando fecha
         fecha = self.pedidos_servicio.castear_fecha( fecha )
-        
-        
-        self.pedidos_servicio.guardar_pedido(fecha, cliente_id, "casa", "casa=>escuela", carrito)
+
+        # Lugar
+        destino = ""
+        ruta = ""
+        resp = input("¿El pedido se entregara en algún lugar registrado? s/n\n: ")
+        if resp == "s":
+
+            self.mostrar_lugares()
+
+            destino = input("Lugar de entrega: ")
+
+            if not destino.lower() in self.grafo_servicio.listar_nombre_vertices():
+                print(f"{destino} no está registrado o no existe")
+                return
+            
+            origen = input("Lugar en el que te encuentras: ")
+            if not origen.lower() in self.grafo_servicio.listar_nombre_vertices():
+                print(f"{origen} no está registrado o no existe")
+                return
+
+            ruta = self.grafo_servicio.buscar_camino( origen.lower(), destino.lower() )
+
+        else:
+            ruta = "na"
+            destino = "na"
+
+        self.pedidos_servicio.guardar_pedido( fecha, cliente_id, destino, ruta, carrito )
+
+        limpiar_pantalla()
+
 
     def menu(self):
         while True:
