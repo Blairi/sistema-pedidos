@@ -17,12 +17,14 @@ class PedidosControlador:
         self.productos_servicio = ProductosServicio()
         self.grafo_servicio = GrafosServicio()
 
+
     def mostrar_lugares(self):
         print("== Lugares registrados ==")
         lugares = self.grafo_servicio.listar_nombre_vertices()
         for lugar in lugares:
             print(lugar)
             print("------------")
+
 
     def mostrar_clientes(self):
         print("== Tus clientes ==")
@@ -37,6 +39,14 @@ class PedidosControlador:
         productos = self.productos_servicio.listar_productos()
         for producto in productos:
             print(producto)
+            print("------------")
+    
+
+    def mostrar_pedidos(self):
+        print("== Todos los pedidos ==")
+        pedidos = self.pedidos_servicio.listar_pedidos()
+        for pedido in pedidos:
+            print(pedido)
             print("------------")
 
     
@@ -168,7 +178,7 @@ class PedidosControlador:
             print("===== Pedidos =====")
             print("Eligé escribiendo el número de la opción deseada:")
 
-            opc = input("0. Salir.\n1. Crear pedido.\n: ")
+            opc = input("0. Salir.\n1. Crear pedido.\n2. Mostrar pedidos\n: ")
 
             if not opc.isdigit():
                 print(f"{opc} no es una opción válida")
@@ -183,4 +193,8 @@ class PedidosControlador:
             if opc == 1:
                 limpiar_pantalla()
                 self.crear_pedido()
+            
+            if opc == 2:
+                limpiar_pantalla()
+                self.mostrar_pedidos()
 
