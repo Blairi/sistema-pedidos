@@ -67,6 +67,7 @@ class Grafo:
 
         print(f"Sigue esta ruta para llegar a tu destino: ")
         print(" => ".join(camino))
+        return " => ".join(camino)
 
     
     def imprimir_grafo(self) -> None:

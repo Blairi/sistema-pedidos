@@ -17,7 +17,7 @@ class GrafosServicio:
         return self.grafo.vertices
 
     
-    def buscar_camino(self, vertice_inicial : str, vertice_destino : str) -> bool:
+    def buscar_camino(self, vertice_inicial : str, vertice_destino : str) -> str:
 
         if not vertice_inicial in self.grafo.vertices:
             return False
@@ -26,9 +26,8 @@ class GrafosServicio:
         
         # Hacemos una copia del grafo, ya que el algoritmo muta el objeto
         copia_grafo = self.constuir_grafo()
-        copia_grafo.BFS( copia_grafo.vertices[ vertice_inicial ], copia_grafo.vertices[ vertice_destino ] )
 
-        return True
+        return copia_grafo.BFS( copia_grafo.vertices[ vertice_inicial ], copia_grafo.vertices[ vertice_destino ] )
 
 
     def constuir_grafo(self) -> Grafo:
