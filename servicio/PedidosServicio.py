@@ -90,6 +90,10 @@ class PedidosServicio:
             pedidos.append(Pedido( int(id), creado, fecha, int(cliente_id), lugar, ruta, productos_id, float(total), entregado ))
 
         return pedidos
+    
+
+    def listar_pedidos_id(self) -> list[int]:
+        return self.repositorio.listar_id_pedidos()
 
     
     def castear_fecha(self, fecha:str) -> datetime:
@@ -180,6 +184,16 @@ class PedidosServicio:
         pedido.total = total
 
         self.repositorio.actualizar_pedido( pedido )
+    
+
+    def eliminar_pedido(self, id:int) -> bool:
+
+        if id not in self.listar_pedidos_id():
+            return False
+        
+        self.repositorio.eliminar_pedido( id )
+
+        return True
 
 
     def generar_id(self) -> int:

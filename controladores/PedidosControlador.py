@@ -282,6 +282,19 @@ class PedidosControlador:
         self.pedidos_servicio.guardar_pedido( fecha, cliente_id, destino, ruta, carrito )
 
         limpiar_pantalla()
+    
+
+    def eliminar_pedido(self):
+
+        self.mostrar_pedidos()
+
+        id = input("Ingresa el id del pedido a eliminar: ")
+
+        if not id.isdigit():
+            print(f"{id} no es válido")
+            return
+        
+        self.pedidos_servicio.eliminar_pedido( int(id) )
 
 
     def menu(self):
@@ -289,7 +302,7 @@ class PedidosControlador:
             print("===== Pedidos =====")
             print("Eligé escribiendo el número de la opción deseada:")
 
-            opc = input("0. Salir.\n1. Crear pedido.\n2. Mostrar pedidos\n3. Actualizar pedido\n: ")
+            opc = input("0. Salir.\n1. Crear pedido.\n2. Mostrar pedidos\n3. Actualizar pedido\n4. Eliminar pedido\n: ")
 
             if not opc.isdigit():
                 print(f"{opc} no es una opción válida")
@@ -312,4 +325,8 @@ class PedidosControlador:
             if opc == 3:
                 limpiar_pantalla()
                 self.actualizar_pedido()
+            
+            if opc == 4:
+                limpiar_pantalla()
+                self.eliminar_pedido()
 
