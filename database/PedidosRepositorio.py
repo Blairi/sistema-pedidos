@@ -22,10 +22,6 @@ class PedidosRepositorio:
 
     def listar_id_pedidos(self) -> list[int]:
 
-        with open( self.ARCHIVO, "r" ) as file: # Si el archivo está vacio
-            if file.read(0) == "":
-                return []
-
         file = open( self.ARCHIVO, "r" )
 
         ids = list()
@@ -33,6 +29,7 @@ class PedidosRepositorio:
             ids.append(int( line.rstrip().split("|")[0] ))
         
         file.close()
+        
         return ids
 
 
