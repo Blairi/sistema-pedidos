@@ -44,7 +44,7 @@ class PedidosControlador:
 
     def mostrar_pedidos(self):
         print("== Todos los pedidos ==")
-        pedidos = self.pedidos_servicio.listar_pedidos()
+        pedidos = self.pedidos_servicio.listar_pedidos_detalles()
         for pedido in pedidos:
             print(pedido)
             print("------------")

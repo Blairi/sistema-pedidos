@@ -6,8 +6,10 @@ sys.path.insert(0,"..")
 from dominio.Pedido import Pedido
 from database.PedidosRepositorio import PedidosRepositorio
 from servicio.ProductosServicio import ProductosServicio
+from servicio.ClientesServicio import ClientesServicio
 from arbol.Arbol import Arbol
 from arbol.Nodo import Nodo
+from classes.PedidoDetalles import PedidoDetalles
 
 
 class PedidosServicio:
@@ -16,6 +18,46 @@ class PedidosServicio:
 
         self.repositorio = PedidosRepositorio()
         self.productos_servicio = ProductosServicio()
+        self.clientes_servicio = ClientesServicio()
+    
+
+    def listar_pedidos_detalles(self) -> list[PedidoDetalles]:
+
+        pedidos_detallados = list()
+        pedidos = self.listar_pedidos()
+
+        for pedido in pedidos:
+
+            cliente = self.clientes_servicio.buscar_cliente_id( pedido.cliente_id )
+            if cliente == None:
+                print("error en cliente")
+                return []
+
+            productos_precios = {}
+            for producto_id in pedido.productos_id:
+
+                producto = self.productos_servicio.recuperar_producto( producto_id )
+
+                if producto == None:
+                    return []
+
+                productos_precios[producto.nombre] = producto.precio
+
+            pedido_detallado = PedidoDetalles(
+                pedido.id, 
+                pedido.creado, 
+                pedido.fecha, 
+                cliente.nombre, 
+                pedido.lugar, 
+                pedido.ruta,
+                productos_precios,
+                pedido.total,
+                pedido.entregrado
+            )
+
+            pedidos_detallados.append( pedido_detallado )
+
+        return pedidos_detallados
     
     # func sera una función que retorne el valor a comparar del objeto
     def construir_arbol(self, func_pedido, func_nodo) -> Arbol:
