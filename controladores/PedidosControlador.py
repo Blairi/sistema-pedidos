@@ -48,26 +48,25 @@ class PedidosControlador:
         for pedido in pedidos:
             print(pedido)
             print("------------")
-
     
-    def crear_pedido(self):
+
+    def mostrar_carrito(self, productos_id:list[int]) -> None:
+        print("== Productos en el carrito ==")
+        for producto_id in productos_id:
+            producto = self.productos_servicio.recuperar_producto( producto_id )
+            print( producto )
+            print("------------")
         
-        # Elegir cliente
-        self.mostrar_clientes()
-
-        cliente_id = input("Ingresa el id del cliente: ")
-
-        if not cliente_id.isdigit() or not int(cliente_id) in self.clientes_servicio.listar_id_clientes():
-            print(f"{cliente_id} no es válido o no existe.")
-            return
+    
+    def construir_carrito(self) -> list[int]:
         
-        cliente_id = int( cliente_id )
-
-        # Elegir productos
-        self.mostrar_productos()
+        limpiar_pantalla()
 
         carrito = list()
         while True:
+
+            self.mostrar_productos()
+            self.mostrar_carrito(carrito)
 
             id_producto = input("Ingresa el id del produto para agregarlo al carrito\n( Para dejar de agregar productos escribe 's':salir )\n: ")
 
@@ -85,12 +84,13 @@ class PedidosControlador:
                 continue
 
             carrito.append( id_producto )
-        
-        if len(carrito) < 1:
-            print("Debes agregar al menos un producto.")
-            return
-        
-        # Fecha de entrega
+
+        return carrito
+    
+
+    def construir_fecha_hora(self) -> datetime:
+
+        # Día de entrega
         anio, mes, dia, hora, minuto = 0, 0, 0, 0, 0
         resp = input("¿Tu pedido se entrega hoy? s/n\n: ")
         if resp == "n" or resp == "no":
@@ -141,9 +141,12 @@ class PedidosControlador:
             minuto = str(datetime.now().minute)
         
         fecha = anio + "-" + mes + "-" + dia + " " + hora + ":" + minuto + ":" + "0" # Formateando fecha
-        fecha = self.pedidos_servicio.castear_fecha( fecha )
 
-        # Lugar
+        return self.pedidos_servicio.castear_fecha( fecha )
+    
+
+    def construir_lugar_ruta(self) -> tuple:
+
         destino = ""
         ruta = ""
         resp = input("¿El pedido se entregara en algún lugar registrado? s/n\n: ")
@@ -167,6 +170,114 @@ class PedidosControlador:
         else:
             ruta = "na"
             destino = "na"
+        
+        return destino, ruta
+    
+
+    def actualizar_pedido(self):
+
+        self.mostrar_pedidos()
+
+        id = input("Id del pedido a actualizar: ")
+
+        if not id.isdigit():
+            print(f"{id} no es válido.")
+            return
+        
+        pedido = self.pedidos_servicio.buscar_pedido_id(int(id))
+
+        if pedido == None:
+            print(f"{id} no existe.")
+            return
+
+        # Actualizando productos
+        carrito = pedido.productos_id
+        while True:
+
+            limpiar_pantalla()
+
+            self.mostrar_carrito( carrito )
+
+            resp = input("0. Dejar de editar productos.\n1. Agregar productos\n2. Eliminar productos\n: ")
+
+            if not resp.isdigit():
+                print(f"{resp} no es vaĺida")
+                return
+            
+            resp = int(resp)
+
+            if resp == 0:
+                break
+
+            if resp == 1:
+                carrito.extend( self.construir_carrito() ) # Combinando nuevos productos id
+            
+            if resp == 2:
+                while True:
+
+                    limpiar_pantalla()
+                    self.mostrar_carrito( carrito )
+
+                    id_prod = input("Ingresa el id del produto para eliminarlo del carrito\n( Para dejar de eliminar productos escribe 's':salir )\n: ")
+
+                    if id_prod == "s":
+                        break
+
+                    if not id_prod.isdigit() or not int(id_prod) in carrito:
+                        print(f"{id_prod} no es válido")
+                        return
+
+                    carrito.remove( int(id_prod) )
+
+        # Actualizando hora y fecha
+        limpiar_pantalla()
+        fecha = self.construir_fecha_hora()
+        if fecha == None:
+            return
+
+        # Actualizando lugar y ruta
+        limpiar_pantalla()
+        destino_ruta = self.construir_lugar_ruta()
+        if destino_ruta == None:
+            return
+
+        destino, ruta = destino_ruta
+
+        self.pedidos_servicio.actualizar_pedido( int(id), fecha, pedido.cliente_id, destino, ruta, carrito, True )
+
+    
+    def crear_pedido(self):
+        
+        # Elegir cliente
+        self.mostrar_clientes()
+
+        cliente_id = input("Ingresa el id del cliente: ")
+
+        if not cliente_id.isdigit() or not int(cliente_id) in self.clientes_servicio.listar_id_clientes():
+            print(f"{cliente_id} no es válido o no existe.")
+            return
+        
+        cliente_id = int( cliente_id )
+
+        # Elegir productos
+        carrito = self.construir_carrito()
+        if len(carrito) < 1:
+            print("Debes agregar al menos un producto.")
+            return
+        
+        # Fecha de entrega
+        limpiar_pantalla()
+        fecha = self.construir_fecha_hora()
+        if fecha == None:
+            return
+
+        # Lugar
+        limpiar_pantalla()
+        destino_ruta = self.construir_lugar_ruta()
+        if destino_ruta == None:
+            return
+        
+        destino, ruta = destino_ruta
 
         self.pedidos_servicio.guardar_pedido( fecha, cliente_id, destino, ruta, carrito )
 
@@ -178,7 +289,7 @@ class PedidosControlador:
             print("===== Pedidos =====")
             print("Eligé escribiendo el número de la opción deseada:")
 
-            opc = input("0. Salir.\n1. Crear pedido.\n2. Mostrar pedidos\n: ")
+            opc = input("0. Salir.\n1. Crear pedido.\n2. Mostrar pedidos\n3. Actualizar pedido\n: ")
 
             if not opc.isdigit():
                 print(f"{opc} no es una opción válida")
@@ -197,4 +308,8 @@ class PedidosControlador:
             if opc == 2:
                 limpiar_pantalla()
                 self.mostrar_pedidos()
+            
+            if opc == 3:
+                limpiar_pantalla()
+                self.actualizar_pedido()
 
