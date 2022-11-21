@@ -35,7 +35,7 @@ class ProductosServicio:
 
         indice = busqueda_binaria(productos, id, Producto.get_id, 0, len(productos) - 1)
 
-        if not indice and indice != 0:
+        if indice == -1:
             return None
 
         return productos[indice]

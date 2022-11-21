@@ -2,7 +2,7 @@
 def busqueda_binaria(A, key, attr, inicio, final):
 
     if inicio > final:
-        return False
+        return -1
 
     m = (inicio + final) // 2
 
