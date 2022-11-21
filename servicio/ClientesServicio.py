@@ -21,7 +21,21 @@ class ClientesServicio:
 
         indice = busqueda_binaria( clientes, llave, attr, 0, len(clientes) - 1 )
 
-        if not indice:
+        if indice == - 1:
+            return None
+
+        return clientes[indice]
+    
+
+    def buscar_cliente_id(self, id:int) -> Cliente:
+
+        clientes = self.listar_clientes()
+
+        quick_sort( clientes, Cliente.get_id, 0, len(clientes) - 1 )
+
+        indice = busqueda_binaria( clientes, id, Cliente.get_id, 0, len(clientes) - 1 )
+
+        if indice == -1:
             return None
 
         return clientes[indice]
