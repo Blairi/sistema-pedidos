@@ -52,7 +52,7 @@ class PedidosServicio:
                 pedido.ruta,
                 productos_precios,
                 pedido.total,
-                pedido.entregrado
+                pedido.entregado
             )
 
             pedidos_detallados.append( pedido_detallado )

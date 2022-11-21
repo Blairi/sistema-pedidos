@@ -22,7 +22,7 @@ class Pedido:
         self.ruta = ruta
         self.productos_id = productos_id
         self.total = total
-        self.entregrado = entregado
+        self.entregado = entregado
 
 
     def tiempo_restante(self) -> None:
@@ -31,15 +31,15 @@ class Pedido:
 
 
     def __str__(self) -> str:
-        return f"id: {self.id}\ncreado: {self.creado}\nfecha: {self.fecha}\ncliente_id: {self.cliente_id}\nlugar: {self.lugar}\nruta: {self.ruta}\nproductos_id: {self.productos_id}\ntotal: {self.total}\nentregado: {self.entregrado}"
+        return f"id: {self.id}\ncreado: {self.creado}\nfecha: {self.fecha}\ncliente_id: {self.cliente_id}\nlugar: {self.lugar}\nruta: {self.ruta}\nproductos_id: {self.productos_id}\ntotal: {self.total}\nentregado: {self.entregado}"
     
 
     def set_entregado(self, entregado:bool) -> None:
-        self.entregrado = entregado
+        self.entregado = entregado
     
 
     def is_entregado(self) -> bool:
-        return self.entregrado
+        return self.entregado
 
     
     def set_productos_id(self, productos_id : list[int]) -> None:

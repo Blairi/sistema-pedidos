@@ -312,9 +312,9 @@ class PedidosControlador:
 
         pedido = self.pedidos_servicio.buscar_pedido_id(int( id ))
 
-        pedido.entregrado = not pedido.entregrado
+        pedido.entregado = not pedido.entregado
 
-        self.pedidos_servicio.actualizar_pedido(pedido.id, pedido.fecha, pedido.cliente_id, pedido.lugar, pedido.ruta, pedido.productos_id, pedido.entregrado)
+        self.pedidos_servicio.actualizar_pedido(pedido.id, pedido.fecha, pedido.cliente_id, pedido.lugar, pedido.ruta, pedido.productos_id, pedido.entregado)
 
     def menu(self):
         while True:

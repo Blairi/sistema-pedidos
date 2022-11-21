@@ -39,7 +39,7 @@ class PedidosRepositorio:
 
         ids = ', '.join(map(str, pedido.productos_id))
 
-        file.write(f"{pedido.id}|{pedido.creado}|{pedido.fecha}|{pedido.cliente_id}|{pedido.lugar}|{pedido.ruta}|{ids}|{pedido.total}|{pedido.entregrado}\n")
+        file.write(f"{pedido.id}|{pedido.creado}|{pedido.fecha}|{pedido.cliente_id}|{pedido.lugar}|{pedido.ruta}|{ids}|{pedido.total}|{pedido.entregado}\n")
 
         file.close()
 
@@ -63,7 +63,7 @@ class PedidosRepositorio:
 
         ids = ', '.join(map(str, pedido.productos_id))
 
-        file.write(f"{pedido.id}|{pedido.creado}|{pedido.fecha}|{pedido.cliente_id}|{pedido.lugar}|{pedido.ruta}|{ids}|{pedido.total}|{pedido.entregrado}\n")
+        file.write(f"{pedido.id}|{pedido.creado}|{pedido.fecha}|{pedido.cliente_id}|{pedido.lugar}|{pedido.ruta}|{ids}|{pedido.total}|{pedido.entregado}\n")
         file.close()
 
         # escribir la copia de los productos

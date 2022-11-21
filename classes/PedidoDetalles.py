@@ -22,11 +22,11 @@ class PedidoDetalles:
         self.ruta = ruta
         self.productos = productos
         self.total = total
-        self.entregrado = entregado
+        self.entregado = entregado
 
 
     def __str__(self) -> str:
-        return f"ID: \t{self.id}\nCliente: \t{self.cliente}\nLugar: \t{self.lugar}\nRuta: \t{self.ruta}\nProductos:\n{self.formatear_productos_precios()}Total: $ {self.total}\nEstado: {'Entregado' if self.entregrado else 'No entregado'}"
+        return f"ID: \t{self.id}\nCliente: \t{self.cliente}\nLugar: \t{self.lugar}\nRuta: \t{self.ruta}\nProductos:\n{self.formatear_productos_precios()}Total: $ {self.total}\nEstado: {'Entregado' if self.entregado else 'No entregado'}"
     
 
     def formatear_productos_precios(self) -> str:
