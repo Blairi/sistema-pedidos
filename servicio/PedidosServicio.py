@@ -123,6 +123,18 @@ class PedidosServicio:
             return None
         
         return pedido
+    
+
+    def buscar_pedido_id(self, id:int) -> Pedido|None:
+
+        arbol = self.construir_arbol(Pedido.get_id, Nodo.get_pedido_id)
+
+        pedido = arbol.buscar_pedido(id, Nodo.get_pedido_id)
+
+        if not pedido:
+            return None
+        
+        return pedido
 
 
     def guardar_pedido(self, fecha:datetime, cliente_id:int, lugar:str, ruta:str, productos_id:list[int]) -> bool:
@@ -149,7 +161,7 @@ class PedidosServicio:
 
     def actualizar_pedido(self, id:int, fecha:datetime, cliente_id:int, lugar:str, ruta:str, productos_id:list[int], entregado:bool) -> bool:
 
-        pedido = self.recuperar_pedido( id )
+        pedido = self.buscar_pedido_id( id )
 
         pedido.fecha = fecha
         pedido.cliente_id = cliente_id
