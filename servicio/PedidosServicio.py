@@ -59,6 +59,39 @@ class PedidosServicio:
 
         return pedidos_detallados
     
+
+    def obtener_pedido_detalles(self, pedido:Pedido) -> PedidoDetalles:
+
+        cliente = self.clientes_servicio.buscar_cliente_id( pedido.cliente_id )
+
+        if cliente == None:
+            print("error en cliente")
+            return []
+
+        productos_precios = {}
+        for producto_id in pedido.productos_id:
+
+            producto = self.productos_servicio.recuperar_producto( producto_id )
+
+            if producto == None:
+                return []
+
+            productos_precios[producto.nombre] = producto.precio
+
+        pedido_detallado = PedidoDetalles(
+            pedido.id, 
+            pedido.creado, 
+            pedido.fecha, 
+            cliente.nombre, 
+            pedido.lugar, 
+            pedido.ruta,
+            productos_precios,
+            pedido.total,
+            pedido.entregado
+        )
+
+        return pedido_detallado
+    
     # func sera una función que retorne el valor a comparar del objeto
     def construir_arbol(self, func_pedido, func_nodo) -> Arbol:
 
@@ -198,3 +231,16 @@ class PedidosServicio:
 
     def generar_id(self) -> int:
         return random.randint(0, 9999999)
+    
+
+    def ordenar_pedidos(self, func_pedido) -> list[PedidoDetalles]:
+
+        funciones = {
+            Pedido.get_id: Nodo.get_pedido_id,
+            Pedido.get_fecha: Nodo.get_pedido_fecha
+        }
+
+        arbol = self.construir_arbol(func_pedido, funciones[func_pedido])
+
+        return arbol.recorrido_infijo_lista()
+        
