@@ -6,6 +6,7 @@ from servicio.PedidosServicio import PedidosServicio
 from servicio.ClientesServicio import ClientesServicio
 from servicio.ProductosServicio import ProductosServicio
 from servicio.GrafosServicio import GrafosServicio
+from dominio.Pedido import Pedido
 
 from helpers.limpiar_pantalla import limpiar_pantalla
 
@@ -174,6 +175,38 @@ class PedidosControlador:
         return destino, ruta
     
 
+    def ver_pedidos(self):
+
+        pedidos = self.pedidos_servicio.listar_pedidos()
+
+        while True:
+
+            limpiar_pantalla()
+
+            print("==== Pedidos ====")
+            for pedido in pedidos:
+                print( self.pedidos_servicio.obtener_pedido_detalles(pedido) )
+                print("----------------")
+
+            print("== Ordenar por ==")
+            resp = input("0. Salir\n1. Id\n2. Fecha de entrega\n: ")
+
+            if not resp.isdigit():
+                continue
+            
+            resp = int(resp)
+                
+            if resp == 0:
+                limpiar_pantalla()
+                break
+
+            if resp == 1:
+                pedidos = self.pedidos_servicio.ordenar_pedidos(Pedido.get_id)
+            
+            if resp == 2:
+                pedidos = self.pedidos_servicio.ordenar_pedidos(Pedido.get_fecha)
+
+
     def actualizar_pedido(self):
 
         self.mostrar_pedidos()
@@ -339,7 +372,7 @@ class PedidosControlador:
             
             if opc == 2:
                 limpiar_pantalla()
-                self.mostrar_pedidos()
+                self.ver_pedidos()
             
             if opc == 3:
                 limpiar_pantalla()
