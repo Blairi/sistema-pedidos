@@ -93,3 +93,29 @@ class Arbol:
     def imprimirInfijo(self):
         if self.raiz != None:
             self.infijo( self.raiz )
+
+
+    def lista_infija(self, nodo:Nodo) -> list[Pedido]:
+
+        lista = list()
+
+        if nodo != None:
+
+            if nodo.hijoIzq != None:
+                lista.extend( self.lista_infija(nodo.hijoIzq) )
+
+            lista.append( nodo.pedido )
+
+            if nodo.hijoDer != None:
+                lista.extend( self.lista_infija(nodo.hijoDer) )
+        
+        return lista
+
+
+    def recorrido_infijo_lista(self) -> list[Pedido]:
+
+        lista = list()
+        if self.raiz != None:
+            lista.extend( self.lista_infija(self.raiz) )
+
+        return lista
