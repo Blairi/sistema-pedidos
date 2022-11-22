@@ -332,7 +332,12 @@ class PedidosControlador:
 
     def despachar_pedido(self):
 
-        self.mostrar_pedidos()
+        pedidos = self.pedidos_servicio.ordenar_pedidos( Pedido.get_fecha )
+
+        for pedido_detallado in pedidos:
+            if not pedido_detallado.entregado:
+                print(self.pedidos_servicio.obtener_pedido_detalles( pedido_detallado ))
+                print("---------------------------------")
 
         id = input("Ingresa el id del pedido a despachar: ")
 
@@ -348,6 +353,7 @@ class PedidosControlador:
         pedido.entregado = not pedido.entregado
 
         self.pedidos_servicio.actualizar_pedido(pedido.id, pedido.fecha, pedido.cliente_id, pedido.lugar, pedido.ruta, pedido.productos_id, pedido.entregado)
+
 
     def menu(self):
         while True:
