@@ -26,7 +26,7 @@ class PedidoDetalles:
 
 
     def __str__(self) -> str:
-        return f"ID: \t{self.id}\nCliente: \t{self.cliente}\nLugar: \t{self.lugar}\nRuta: \t{self.ruta}\nProductos:\n{self.formatear_productos_precios()}Total: $ {self.total}\nEstado: {'Entregado' if self.entregado else 'No entregado'}"
+        return f"ID: \t{self.id}\nCliente: \t{self.cliente}\nLugar: \t{self.lugar}\nRuta: \t{self.ruta}\nProductos:\n{self.formatear_productos_precios()}Total: $ {self.total}\nCreado: {self.creado}\nFecha de entrega: {self.fecha}\nTiempo restante: {'Ya debio ser entregado' if self.fecha < datetime.now() else self.tiempo_restante()}\nEstado: {'Entregado' if self.entregado else 'No entregado'}"
     
 
     def formatear_productos_precios(self) -> str:
@@ -36,6 +36,6 @@ class PedidoDetalles:
         return formato
 
 
-    def tiempo_restante(self) -> None:
+    def tiempo_restante(self) -> datetime:
         tiempo = self.fecha - datetime.now()
         return tiempo
