@@ -276,7 +276,10 @@ class PedidosControlador:
 
         destino, ruta = destino_ruta
 
-        self.pedidos_servicio.actualizar_pedido( int(id), fecha, pedido.cliente_id, destino, ruta, carrito, False )
+        # estado del pedido
+        estado = input("¿El pedido ya fue entregado? s/n: ")
+
+        self.pedidos_servicio.actualizar_pedido( int(id), fecha, pedido.cliente_id, destino, ruta, carrito, estado == "s" )
 
     
     def crear_pedido(self):
