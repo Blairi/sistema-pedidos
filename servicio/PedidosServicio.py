@@ -233,7 +233,7 @@ class PedidosServicio:
         return random.randint(0, 9999999)
     
 
-    def ordenar_pedidos(self, func_pedido) -> list[PedidoDetalles]:
+    def ordenar_pedidos(self, func_pedido) -> list[Pedido]:
 
         funciones = {
             Pedido.get_id: Nodo.get_pedido_id,
