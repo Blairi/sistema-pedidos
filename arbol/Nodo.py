@@ -6,7 +6,12 @@ class Nodo:
         self.hijoIzq = None
         self.hijoDer = None
         self.pedido = pedido
-    
+
+
     def get_pedido_id(self) -> int:
         return self.pedido.get_id()
+    
+
+    def get_pedido_fecha(self) -> int:
+        return self.pedido.get_fecha()
     
