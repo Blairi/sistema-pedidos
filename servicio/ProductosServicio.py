@@ -4,8 +4,7 @@ import random
 sys.path.insert(0,"..")
 from dominio.Producto import Producto
 from database.ProductosRepositorio import ProductosRepositorio
-from busqueda.busqueda_binaria import busqueda_binaria
-from ordenamiento.quick_sort import quick_sort
+from busqueda.busqueda_lineal import busqueda_lineal
 
 class ProductosServicio:
 
@@ -31,9 +30,7 @@ class ProductosServicio:
         
         productos = self.listar_productos()
         
-        quick_sort(productos, Producto.get_id, 0, len(productos) - 1)
-
-        indice = busqueda_binaria(productos, id, Producto.get_id, 0, len(productos) - 1)
+        indice = busqueda_lineal( productos, Producto.get_id, id )
 
         if indice == -1:
             return None

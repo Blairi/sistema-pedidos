@@ -154,6 +154,7 @@ class ProductosControlador:
 
         if not producto:
             print(f"{id} no existe.")
+            return
         
         print("== Producto encontrado ==")
         print(producto)

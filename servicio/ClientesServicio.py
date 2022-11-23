@@ -4,8 +4,7 @@ import random
 sys.path.insert(0,"..")
 from dominio.Cliente import Cliente
 from database.ClientesRepositorio import ClientesRespositorio
-from ordenamiento.quick_sort import quick_sort
-from busqueda.busqueda_binaria import busqueda_binaria
+from busqueda.busqueda_lineal import busqueda_lineal
 
 class ClientesServicio:
     
@@ -17,9 +16,7 @@ class ClientesServicio:
 
         clientes = self.listar_clientes()
 
-        quick_sort( clientes, attr, 0, len(clientes) - 1 )
-
-        indice = busqueda_binaria( clientes, llave, attr, 0, len(clientes) - 1 )
+        indice = busqueda_lineal(clientes, attr, llave)
 
         if indice == - 1:
             return None
@@ -31,9 +28,7 @@ class ClientesServicio:
 
         clientes = self.listar_clientes()
 
-        quick_sort( clientes, Cliente.get_id, 0, len(clientes) - 1 )
-
-        indice = busqueda_binaria( clientes, id, Cliente.get_id, 0, len(clientes) - 1 )
+        indice = busqueda_lineal(clientes, Cliente.get_id, id)
 
         if indice == -1:
             return None
