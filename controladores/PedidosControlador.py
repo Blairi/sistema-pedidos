@@ -371,7 +371,7 @@ class PedidosControlador:
 
         pedido = self.pedidos_servicio.buscar_pedido_id(int( id ))
 
-        pedido.entregado = not pedido.entregado
+        pedido.entregado = True
 
         self.pedidos_servicio.actualizar_pedido(pedido.id, pedido.fecha, pedido.cliente_id, pedido.lugar, pedido.ruta, pedido.productos_id, pedido.entregado)
 
