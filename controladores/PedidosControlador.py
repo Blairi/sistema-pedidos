@@ -146,31 +146,49 @@ class PedidosControlador:
         return self.pedidos_servicio.castear_fecha( fecha )
     
 
-    def construir_lugar_ruta(self) -> tuple:
+    def construir_lugar_ruta(self, id_cliente:int) -> tuple:
 
-        destino = ""
-        ruta = ""
-        resp = input("¿El pedido se entregara en algún lugar registrado? s/n\n: ")
-        if resp == "s":
+        destino = "na"
+        ruta = "na"
+        resp = input("¿El pedido se entregara en la ubicación del cliente? s/n\n: ")
+        if resp == "n":
 
-            self.mostrar_lugares()
+            resp = input("¿Deseas agregar la ubicación del pedido en alguno de los lugares registrados? s/n\n: ")
 
-            destino = input("Lugar de entrega: ")
+            if resp == "s": # Agregar origen y destino
 
-            if not destino.lower() in self.grafo_servicio.listar_nombre_vertices():
-                print(f"{destino} no está registrado o no existe")
-                return
+                self.mostrar_lugares()
+
+                destino = input("Lugar de entrega: ")
+
+                if not destino.lower() in self.grafo_servicio.listar_nombre_vertices():
+                    print(f"{destino} no está registrado o no existe")
+                    return
             
-            origen = input("Lugar en el que te encuentras: ")
-            if not origen.lower() in self.grafo_servicio.listar_nombre_vertices():
-                print(f"{origen} no está registrado o no existe")
-                return
+                origen = input("Lugar en el que te encuentras: ")
+                if not origen.lower() in self.grafo_servicio.listar_nombre_vertices():
+                    print(f"{origen} no está registrado o no existe")
+                    return
 
-            ruta = self.grafo_servicio.buscar_camino( origen.lower(), destino.lower() )
+                ruta = self.grafo_servicio.buscar_camino( origen.lower(), destino.lower() )
+            
+            else:
+                ruta = "na"
+                destino = "na"
 
         else:
-            ruta = "na"
-            destino = "na"
+
+            cliente = self.clientes_servicio.buscar_cliente_id( id_cliente )
+            destino = cliente.ubicacion
+
+            if destino != "na":
+                self.mostrar_lugares()
+                origen = input("Lugar en el que te encuentras: ")
+                if not origen.lower() in self.grafo_servicio.listar_nombre_vertices():
+                    print(f"{origen} no está registrado o no existe")
+                    return
+
+                ruta = self.grafo_servicio.buscar_camino( origen.lower(), destino.lower() )
         
         return destino, ruta
     
@@ -270,7 +288,7 @@ class PedidosControlador:
 
         # Actualizando lugar y ruta
         limpiar_pantalla()
-        destino_ruta = self.construir_lugar_ruta()
+        destino_ruta = self.construir_lugar_ruta(int(id))
         if destino_ruta == None:
             return
 
@@ -309,7 +327,7 @@ class PedidosControlador:
 
         # Lugar
         limpiar_pantalla()
-        destino_ruta = self.construir_lugar_ruta()
+        destino_ruta = self.construir_lugar_ruta(cliente_id)
         if destino_ruta == None:
             return
         

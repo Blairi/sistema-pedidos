@@ -11,7 +11,7 @@ class ClientesRespositorio:
     def guardar_cliente(self, cliente:Cliente) -> None:
 
         file = open( self.ARCHIVO, "a" )
-        file.write(f"{cliente.id}|{cliente.nombre}\n")
+        file.write(f"{cliente.id}|{cliente.nombre}|{cliente.ubicacion}\n")
         file.close()
 
     
@@ -55,9 +55,9 @@ class ClientesRespositorio:
 
         file.close()
 
-        # escribir el nuevo producto
+        # escribir el nuevo cliente
         file = open( self.ARCHIVO, "w" )
-        file.write(f"{cliente.id}|{cliente.nombre}\n")
+        file.write(f"{cliente.id}|{cliente.nombre}|{cliente.ubicacion}\n")
         file.close()
 
         # escribir la copia de los productos

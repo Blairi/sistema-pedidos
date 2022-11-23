@@ -45,11 +45,11 @@ class ClientesServicio:
 
         clientes = list()
         for tupla in self.repositorio.listar_clientes():
-            id, nombre = tupla
+            id, nombre, ubicacion = tupla
             
             id = int(id)
 
-            clientes.append( Cliente(id, nombre) )
+            clientes.append( Cliente(id, nombre, ubicacion) )
 
         return clientes
 
@@ -58,7 +58,7 @@ class ClientesServicio:
         return self.repositorio.listar_id_clientes()
 
     
-    def agregar_cliente(self, nombre:str) -> bool:
+    def agregar_cliente(self, nombre:str, ubicacion:str) -> bool:
 
         id = self.generar_id()
 
@@ -66,22 +66,24 @@ class ClientesServicio:
             id = self.generar_id()
 
         nombre = nombre.lower()
+        ubicacion = ubicacion.lower()
 
-        cliente = Cliente( id, nombre )
+        cliente = Cliente( id, nombre, ubicacion )
 
         self.repositorio.guardar_cliente( cliente )
 
         return True
     
 
-    def actualizar_cliente(self, id:int, nombre:str) -> bool:
+    def actualizar_cliente(self, id:int, nombre:str, ubicacion:str) -> bool:
 
         if id not in self.listar_id_clientes():
             return False
 
         nombre = nombre.lower()
+        ubicacion = ubicacion.lower()
 
-        cliente_actualizado = Cliente( id, nombre )
+        cliente_actualizado = Cliente( id, nombre, ubicacion )
 
         self.repositorio.actualizar_cliente( cliente_actualizado )
 

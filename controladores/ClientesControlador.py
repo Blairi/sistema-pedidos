@@ -1,15 +1,17 @@
 import sys
 
 sys.path.insert(0,"..")
-from helpers.limpiar_pantalla import limpiar_pantalla
 from servicio.ClientesServicio import ClientesServicio
-from ordenamiento.quick_sort import quick_sort
+from servicio.GrafosServicio import GrafosServicio
 from dominio.Cliente import Cliente
+from ordenamiento.quick_sort import quick_sort
+from helpers.limpiar_pantalla import limpiar_pantalla
 
 class ClientesControlador:
     
     def __init__(self) -> None:
         self.cliente_servicio = ClientesServicio()
+        self.grafos_servicio = GrafosServicio()
 
     
     def mostrar_clientes(self):
@@ -28,7 +30,26 @@ class ClientesControlador:
 
         nombre = input("Nombre del cliente: ")
 
-        self.cliente_servicio.agregar_cliente( nombre )
+        ubicacion = "na"
+        resp = input("¿El cliente tiene una ubicación registrada? s/n: ")
+
+        if resp == "s":
+
+            print("=== Elige el lugar donde se encuentra el cliente ===")
+
+            lugares = self.grafos_servicio.listar_nombre_vertices()
+            for lugar in lugares:
+                print( lugar )
+                print("---------------")
+            
+            ubicacion = input(": ")
+
+            if not ubicacion.lower() in lugares:
+                print(f"{ubicacion} no válida")
+                return
+
+
+        self.cliente_servicio.agregar_cliente( nombre, ubicacion )
 
         limpiar_pantalla()
 
@@ -47,7 +68,25 @@ class ClientesControlador:
 
         nombre = input("Nuevo nombre: ")
 
-        actualizado = self.cliente_servicio.actualizar_cliente( id, nombre )
+        ubicacion = "na"
+        resp = input("¿El cliente tiene una ubicación registrada? s/n: ")
+
+        if resp == "s":
+
+            print("=== Elige el lugar donde se encuentra el cliente ===")
+
+            lugares = self.grafos_servicio.listar_nombre_vertices()
+            for lugar in lugares:
+                print( lugar )
+                print("---------------")
+            
+            ubicacion = input(": ")
+
+            if not ubicacion.lower() in lugares:
+                print(f"{ubicacion} no válida")
+                return
+
+        actualizado = self.cliente_servicio.actualizar_cliente( id, nombre, ubicacion )
 
         if not actualizado:
             print(f"{id} no existe")
