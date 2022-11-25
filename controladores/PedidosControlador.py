@@ -368,12 +368,34 @@ class PedidosControlador:
 
         if not int( id ) in self.pedidos_servicio.listar_pedidos_id():
             print(f"{id} no existe")
+            return
 
         pedido = self.pedidos_servicio.buscar_pedido_id(int( id ))
 
         pedido.entregado = True
 
         self.pedidos_servicio.actualizar_pedido(pedido.id, pedido.fecha, pedido.cliente_id, pedido.lugar, pedido.ruta, pedido.productos_id, pedido.entregado)
+    
+
+    def buscar_pedido(self):
+
+        self.mostrar_pedidos()
+
+        pedido_id = input("Id del pedido a buscar: ")
+
+        if not pedido_id.isdigit():
+            print(f"{pedido_id} no es válido")
+            return
+
+        if not int( pedido_id ) in self.pedidos_servicio.listar_pedidos_id():
+            print(f"{pedido_id} no existe")
+            return
+        
+        pedido = self.pedidos_servicio.buscar_pedido_id( int(pedido_id) )
+
+        print("==== Pedido encontrado ====")
+        print(pedido)
+        print("============================")
 
 
     def menu(self):
@@ -381,7 +403,7 @@ class PedidosControlador:
             print("===== Pedidos =====")
             print("Eligé escribiendo el número de la opción deseada:")
 
-            opc = input("0. Salir.\n1. Crear pedido.\n2. Mostrar pedidos\n3. Actualizar pedido\n4. Eliminar pedido\n5. Despachar pedido\n: ")
+            opc = input("0. Salir.\n1. Crear pedido.\n2. Mostrar pedidos\n3. Actualizar pedido\n4. Eliminar pedido\n5. Buscar pedido\n: ")
 
             if not opc.isdigit():
                 print(f"{opc} no es una opción válida")
@@ -411,5 +433,5 @@ class PedidosControlador:
             
             if opc == 5:
                 limpiar_pantalla()
-                self.despachar_pedido()
+                self.buscar_pedido()
 
