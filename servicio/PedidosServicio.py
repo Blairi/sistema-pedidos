@@ -10,6 +10,7 @@ from servicio.ClientesServicio import ClientesServicio
 from arbol.Arbol import Arbol
 from arbol.Nodo import Nodo
 from classes.PedidoDetalles import PedidoDetalles
+from helpers.ManejoPDF import guardar_pdf
 
 
 class PedidosServicio:
@@ -192,6 +193,10 @@ class PedidosServicio:
         nuevo_pedido = Pedido( id, creado, fecha, cliente_id, lugar, ruta, productos_id, total, False )
 
         self.repositorio.guardar_pedido( nuevo_pedido )
+
+        pedido_detallado = self.obtener_pedido_detalles( nuevo_pedido )
+
+        guardar_pdf( pedido_detallado )
 
         return True
     
